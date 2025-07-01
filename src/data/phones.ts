@@ -51,35 +51,33 @@ export const phones: Phone[] = [
   ram: "8GB",
   description: "Infinix Note 50 with large storage and smooth performance for everyday use.",
   specifications: {
-    storage: "256GB",
-    ram: "8GB",
-    // NEW ADDITIONS (from GSMArena):
-    body: {
-      dimensions: "164.3 x 74.5 x 7.9 mm",
-      weight: "186 g",
-      build: "Glass front, plastic back",
-      sim: "Dual SIM",
-    },
-    display: {
-      type: "IPS LCD, 90Hz",
-      size: "6.78 inches",
-      resolution: "1080 x 2460 pixels",
-    },
-    platform: {
-      os: "Android 13",
-      chipset: "Mediatek Helio G88",
-      cpu: "Octa-core (2x2.0 GHz Cortex-A75 & 6x1.8 GHz Cortex-A55)",
-      gpu: "Mali-G52 MC2",
-    },
-    camera: {
-      main: "50 MP, f/1.6 (wide)",
-      selfie: "8 MP, f/2.0",
-      video: "1440p@30fps",
-    },
-    battery: {
-      type: "Li-Po 5000 mAh",
-      charging: "18W wired",
-    },
+  storage: "256GB",
+  ram: "8GB",
+  body: {
+    dimensions: "164.3 x 74.5 x 7.9 mm",
+    weight: "186 g",
+    build: "Glass front, plastic back",
+    sim: "Dual SIM"
+  },
+  display: {
+    type: "IPS LCD, 90Hz",
+    size: "6.78 inches",
+    resolution: "1080 x 2460 pixels"
+  },
+  platform: {
+    os: "Android 13",
+    chipset: "Mediatek Helio G88",
+    cpu: "Octa-core (2x2.0 GHz Cortex-A75 & 6x1.8 GHz Cortex-A55)",
+    gpu: "Mali-G52 MC2"
+  },
+  camera: {
+    main: "50 MP, f/1.6 (wide)",
+    selfie: "8 MP, f/2.0",
+    video: "1440p@30fps"
+  },
+  battery: {
+    type: "Li-Po 5000 mAh",
+    charging: "18W wired"
   },
   inStock: true
 }
