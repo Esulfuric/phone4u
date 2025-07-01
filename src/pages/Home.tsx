@@ -1,40 +1,14 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import ProductCard, { ProductProps } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
+import { phones } from "@/data/phones";
 import { Phone, Smartphone, Headphones, Map, MapPin, Battery, Wifi, Usb } from "lucide-react";
 
-const featuredProducts: ProductProps[] = [
-  {
-    id: 1,
-    name: "iPhone 14 Pro Max",
-    price: 750000,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02ff9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-    brand: "Apple"
-  },
-  {
-    id: 2,
-    name: "Samsung Galaxy S23 Ultra",
-    price: 650000,
-    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-    brand: "Samsung"
-  },
-  {
-    id: 3,
-    name: "Google Pixel 7 Pro",
-    price: 450000,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-    brand: "Google"
-  },
-  {
-    id: 4,
-    name: "OnePlus 11",
-    price: 380000,
-    image: "https://images.unsplash.com/photo-1591447337751-c7b95cf704ba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-    brand: "OnePlus"
-  }
-];
+// Get featured products (top 4 most expensive phones)
+const featuredProducts = phones
+  .sort((a, b) => b.price - a.price)
+  .slice(0, 4);
 
 const categories = [
   { name: "Smartphones", icon: <Smartphone className="h-8 w-8" /> },
@@ -177,7 +151,6 @@ const Home = () => {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
               <div className="rounded-lg overflow-hidden h-[400px] shadow-lg">
-                {/* This would ideally be a Google Map, but using an image for now */}
                 <img 
                   src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
                   alt="Store Location"
@@ -189,7 +162,7 @@ const Home = () => {
               <h2 className="text-3xl font-bold mb-6">Visit Our Store</h2>
               <div className="flex items-start mb-4">
                 <MapPin className="h-6 w-6 text-brand-gold mr-3 shrink-0" />
-                <p className="text-gray-700">123 Computer Village, Ikeja, Lagos, Nigeria</p>
+                <p className="text-gray-700">1, Akowonjo Road, Egbeda, Lagos</p>
               </div>
               <p className="text-gray-700 mb-6">
                 Visit our physical store for personalized service and exclusive in-store offers. 
