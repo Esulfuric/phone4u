@@ -3,16 +3,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Filter, Search, Smartphone, Headphones, Watch, Gamepad2 } from "lucide-react";
+import { Filter, Search, Smartphone, Tablet } from "lucide-react";
 import { getPhonesByCategory, searchPhones } from "@/data/phones";
 import ProductCard from "@/components/ProductCard";
 
 const categories = [
   { id: "all", name: "All Products", icon: Smartphone },
   { id: "smartphones", name: "Smartphones", icon: Smartphone },
-  { id: "accessories", name: "Accessories", icon: Headphones },
-  { id: "smartwatches", name: "Smart Watches", icon: Watch },
-  { id: "gaming", name: "Gaming", icon: Gamepad2 }
+  { id: "tablets", name: "Tablets", icon: Tablet }
 ];
 
 const Products = () => {
@@ -30,8 +28,10 @@ const Products = () => {
         switch (priceRange) {
           case "under-100k":
             return phone.price < 100000;
-          case "100k-300k":
-            return phone.price >= 100000 && phone.price <= 300000;
+          case "100k-200k":
+            return phone.price >= 100000 && phone.price <= 200000;
+          case "200k-300k":
+            return phone.price >= 200000 && phone.price <= 300000;
           case "300k-500k":
             return phone.price >= 300000 && phone.price <= 500000;
           case "500k-700k":
@@ -72,7 +72,8 @@ const Products = () => {
             <SelectContent>
               <SelectItem value="all">All Prices</SelectItem>
               <SelectItem value="under-100k">Under ₦100,000</SelectItem>
-              <SelectItem value="100k-300k">₦100,000 - ₦300,000</SelectItem>
+              <SelectItem value="100k-200k">₦100,000 - ₦200,000</SelectItem>
+              <SelectItem value="200k-300k">₦200,000 - ₦300,000</SelectItem>
               <SelectItem value="300k-500k">₦300,000 - ₦500,000</SelectItem>
               <SelectItem value="500k-700k">₦500,000 - ₦700,000</SelectItem>
               <SelectItem value="above-700k">Above ₦700,000</SelectItem>
@@ -89,7 +90,7 @@ const Products = () => {
         </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
           {categories.map((category) => {
             const IconComponent = category.icon;
             const isActive = selectedCategory === category.id;

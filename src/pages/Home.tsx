@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import { phones } from "@/data/phones";
-import { Phone, Smartphone, Headphones, Map, MapPin, Battery, Wifi, Usb } from "lucide-react";
+import { Smartphone, Tablet, Wifi, Usb } from "lucide-react";
 
 // Get featured products (top 4 most expensive phones)
 const featuredProducts = phones
@@ -12,7 +12,7 @@ const featuredProducts = phones
 
 const categories = [
   { name: "Smartphones", icon: <Smartphone className="h-8 w-8" /> },
-  { name: "Accessories", icon: <Headphones className="h-8 w-8" /> },
+  { name: "Tablets", icon: <Tablet className="h-8 w-8" /> },
   { name: "USB Devices", icon: <Usb className="h-8 w-8" /> },
   { name: "Wifi & Network", icon: <Wifi className="h-8 w-8" /> },
 ];
@@ -161,7 +161,7 @@ const Home = () => {
             <div className="md:w-1/2">
               <h2 className="text-3xl font-bold mb-6">Visit Our Store</h2>
               <div className="flex items-start mb-4">
-                <MapPin className="h-6 w-6 text-brand-gold mr-3 shrink-0" />
+                <div className="h-6 w-6 text-brand-gold mr-3 shrink-0">📍</div>
                 <p className="text-gray-700">1, Akowonjo Road, Egbeda, Lagos</p>
               </div>
               <p className="text-gray-700 mb-6">
