@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X, ShoppingCart, Phone, Smartphone, Headphones } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCart } from '@/context/CartContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { itemCount } = useCart();
 
   const toggleNav = () => {
     setIsOpen(!isOpen);
@@ -40,10 +42,12 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-brand-gold transition-colors font-medium">
               Contact
             </Link>
-            <Button variant="outline" className="border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Cart (0)
-            </Button>
+            <Link to="/cart">
+              <Button variant="outline" className="border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white">
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                Cart ({itemCount})
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Navigation Button */}
@@ -90,10 +94,12 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Button variant="outline" className="border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white justify-start">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Cart (0)
-            </Button>
+            <Link to="/cart" onClick={() => setIsOpen(false)}>
+              <Button variant="outline" className="border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-white justify-start">
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                Cart ({itemCount})
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
