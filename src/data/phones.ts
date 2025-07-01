@@ -5,47 +5,84 @@ export interface Phone {
   brand: string;
   price: number;
   image: string;
-  category: string;
-  condition: 'new' | 'used' | 'refurbished';
+  category: "smartphones" | "tablets";
+  condition: "new" | "refurbished" | "used";
   storage?: string;
   ram?: string;
-  connectivity?: string;
-  description?: string;
-  specifications?: {
-    display?: string;
-    processor?: string;
-    camera?: string;
-    battery?: string;
-    os?: string;
-    ram?: string;
-    storage?: string;
-    connectivity?: string;
+  connectivity?: "4G" | "5G" | "Wi-Fi";
+  description: string;
+  inStock: boolean;
+  specifications: {
+    // Body
     dimensions?: string;
     weight?: string;
+    build?: string; // e.g., "Glass front, plastic back"
+    sim?: string;   // e.g., "Dual SIM"
+    // Display
+    displayType?: string; // e.g., "IPS LCD"
+    displaySize?: string; // e.g., "6.5 inches"
+    resolution?: string;  // e.g., "720 x 1600 pixels"
+    // Platform
+    os?: string;         // e.g., "Android 13"
+    chipset?: string;    // e.g., "Mediatek Helio G85"
+    cpu?: string;        // e.g., "Octa-core"
+    gpu?: string;        // e.g., "Mali-G52"
+    // Camera
+    mainCamera?: string; // e.g., "50 MP, f/1.8 (wide)"
+    selfieCamera?: string; // e.g., "8 MP, f/2.0"
+    video?: string;      // e.g., "1080p@30fps"
+    // Battery
+    batteryType?: string; // e.g., "Li-Po 5000 mAh"
+    charging?: string;    // e.g., "18W wired"
   };
-  features?: string[];
-  inStock: boolean;
 }
 
 export const phones: Phone[] = [
   // Infinix Phones
-  {
-    id: 1,
-    name: "Infinix Note 50",
-    brand: "Infinix",
-    price: 319500,
-    image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTPgIa3AsDlr_nuzCRQ0GQGmGDGqvFZO4VTL9OUOtOho3CTzhltrWFASbkelrVKa_6S9TIcQR_r_ehmxOnXcuLQU5ypk3OzzrrrxjTT07-c",
-    category: "smartphones",
-    condition: "new",
+ {
+  id: 1,
+  name: "Infinix Note 50",
+  brand: "Infinix",
+  price: 319500,
+  image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTPgIa3AsDlr_nuzCRQ0GQGmGDGqvFZO4VTL9OUOtOho3CTzhltrWFASbkelrVKa_6S9TIcQR_r_ehmxOnXcuLQU5ypk3OzzrrrxjTT07-c",
+  category: "smartphones",
+  condition: "new",
+  storage: "256GB",
+  ram: "8GB",
+  description: "Infinix Note 50 with large storage and smooth performance for everyday use.",
+  specifications: {
     storage: "256GB",
     ram: "8GB",
-    description: "Infinix Note 50 with large storage and smooth performance for everyday use.",
-    specifications: {
-      storage: "256GB",
-      ram: "8GB",
+    // NEW ADDITIONS (from GSMArena):
+    body: {
+      dimensions: "164.3 x 74.5 x 7.9 mm",
+      weight: "186 g",
+      build: "Glass front, plastic back",
+      sim: "Dual SIM",
     },
-    inStock: true
+    display: {
+      type: "IPS LCD, 90Hz",
+      size: "6.78 inches",
+      resolution: "1080 x 2460 pixels",
+    },
+    platform: {
+      os: "Android 13",
+      chipset: "Mediatek Helio G88",
+      cpu: "Octa-core (2x2.0 GHz Cortex-A75 & 6x1.8 GHz Cortex-A55)",
+      gpu: "Mali-G52 MC2",
+    },
+    camera: {
+      main: "50 MP, f/1.6 (wide)",
+      selfie: "8 MP, f/2.0",
+      video: "1440p@30fps",
+    },
+    battery: {
+      type: "Li-Po 5000 mAh",
+      charging: "18W wired",
+    },
   },
+  inStock: true
+}
   {
     id: 2,
     name: "Infinix Note 50 Pro",
