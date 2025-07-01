@@ -106,10 +106,10 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {phone.color && (
+            {phone.ram && (
               <div className="mb-6">
-                <span className="text-sm font-medium text-gray-600">Color: </span>
-                <span className="text-sm">{phone.color}</span>
+                <span className="text-sm font-medium text-gray-600">RAM: </span>
+                <span className="text-sm">{phone.ram}</span>
               </div>
             )}
 
