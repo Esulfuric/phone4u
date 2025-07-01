@@ -47,33 +47,51 @@ const ProductDetail = () => {
   };
 
   // Helper function to render nested specifications
-  const renderSpecifications = (specs: any) => {
-    return Object.entries(specs).map(([category, details]) => {
-      if (typeof details === 'object' && details !== null) {
-        return (
-          <div key={category} className="col-span-2">
-            <h3 className="font-medium capitalize mb-2">
-              {category.replace(/([A-Z])/g, ' $1').trim()}:
-            </h3>
-            <div className="grid grid-cols-2 gap-2 pl-4">
-              {Object.entries(details).map(([key, value]) => (
-                <div key={key} className="flex justify-between">
-                  <span className="text-gray-600 capitalize">{key}:</span>
-                  <span className="font-medium">{value as string}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      }
+// Replace your current renderSpecifications function with this:
+const renderSpecifications = (specs: any) => {
+  // If specs is just {storage: "...", ram: "..."} (old format)
+  if (specs.storage && specs.ram && Object.keys(specs).length === 2) {
+    return (
+      <>
+        <div className="flex justify-between py-2">
+          <span className="font-medium">Storage:</span>
+          <span className="text-gray-600">{specs.storage}</span>
+        </div>
+        <div className="flex justify-between py-2">
+          <span className="font-medium">RAM:</span>
+          <span className="text-gray-600">{specs.ram}</span>
+        </div>
+      </>
+    );
+  }
+
+  // For the new nested format
+  return Object.entries(specs).map(([category, details]) => {
+    if (typeof details === 'object' && details !== null) {
       return (
-        <div key={category} className="flex justify-between py-2">
-          <span className="font-medium capitalize">{category.replace(/([A-Z])/g, ' $1').trim()}:</span>
-          <span className="text-gray-600">{details as string}</span>
+        <div key={category} className="col-span-2">
+          <h3 className="font-medium capitalize mb-2">
+            {category.replace(/([A-Z])/g, ' $1').trim()}:
+          </h3>
+          <div className="grid grid-cols-2 gap-2 pl-4">
+            {Object.entries(details).map(([key, value]) => (
+              <div key={key} className="flex justify-between">
+                <span className="text-gray-600 capitalize">{key}:</span>
+                <span className="font-medium">{value as string}</span>
+              </div>
+            ))}
+          </div>
         </div>
       );
-    });
-  };
+    }
+    return (
+      <div key={category} className="flex justify-between py-2">
+        <span className="font-medium capitalize">{category.replace(/([A-Z])/g, ' $1').trim()}:</span>
+        <span className="text-gray-600">{details as string}</span>
+      </div>
+    );
+  });
+};
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
