@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,11 @@ const ProductDetail = () => {
   
   const phone = getPhoneById(Number(id));
   const relatedPhones = phone ? getRelatedPhones(phone) : [];
+
+  // Debugging
+  useEffect(() => {
+    console.log("Current phone:", phone);
+  }, [phone]);
 
   if (!phone) {
     return (
@@ -46,57 +52,16 @@ const ProductDetail = () => {
     });
   };
 
-  // Helper function to render nested specifications
-// Replace your current renderSpecifications function with this:
-const renderSpecifications = (specs: any) => {
-  // If specs is just {storage: "...", ram: "..."} (old format)
-  if (specs.storage && specs.ram && Object.keys(specs).length === 2) {
-    return (
-      <>
-        <div className="flex justify-between py-2">
-          <span className="font-medium">Storage:</span>
-          <span className="text-gray-600">{specs.storage}</span>
-        </div>
-        <div className="flex justify-between py-2">
-          <span className="font-medium">RAM:</span>
-          <span className="text-gray-600">{specs.ram}</span>
-        </div>
-      </>
-    );
-  }
-
-  // For the new nested format
-  return Object.entries(specs).map(([category, details]) => {
-    if (typeof details === 'object' && details !== null) {
-      return (
-        <div key={category} className="col-span-2">
-          <h3 className="font-medium capitalize mb-2">
-            {category.replace(/([A-Z])/g, ' $1').trim()}:
-          </h3>
-          <div className="grid grid-cols-2 gap-2 pl-4">
-            {Object.entries(details).map(([key, value]) => (
-              <div key={key} className="flex justify-between">
-                <span className="text-gray-600 capitalize">{key}:</span>
-                <span className="font-medium">{value as string}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div key={category} className="flex justify-between py-2">
-        <span className="font-medium capitalize">{category.replace(/([A-Z])/g, ' $1').trim()}:</span>
-        <span className="text-gray-600">{details as string}</span>
-      </div>
-    );
-  });
-};
+  const renderSpecItem = (label: string, value: string | number) => (
+    <div className="flex justify-between py-1">
+      <span className="font-medium">{label}:</span>
+      <span className="text-gray-600">{value}</span>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        {/* Back Button */}
         <Button variant="ghost" asChild className="mb-6">
           <Link to="/products">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -110,7 +75,7 @@ const renderSpecifications = (specs: any) => {
             <img
               src={phone.image}
               alt={phone.name}
-              className="w-full h-96 object-cover rounded-lg"
+              className="w-full h-96 object-contain rounded-lg"
             />
           </div>
 
@@ -145,19 +110,8 @@ const renderSpecifications = (specs: any) => {
 
             <p className="text-gray-700 mb-6">{phone.description}</p>
 
-            {phone.storage && (
-              <div className="mb-4">
-                <span className="text-sm font-medium text-gray-600">Storage: </span>
-                <span className="text-sm">{phone.storage}</span>
-              </div>
-            )}
-
-            {phone.ram && (
-              <div className="mb-6">
-                <span className="text-sm font-medium text-gray-600">RAM: </span>
-                <span className="text-sm">{phone.ram}</span>
-              </div>
-            )}
+            {phone.storage && renderSpecItem("Storage", phone.storage)}
+            {phone.ram && renderSpecItem("RAM", phone.ram)}
 
             <Button 
               onClick={handleAddToCart}
@@ -168,7 +122,6 @@ const renderSpecifications = (specs: any) => {
               {phone.inStock ? 'Add to Cart' : 'Out of Stock'}
             </Button>
 
-            {/* Features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-brand-gold" />
@@ -193,8 +146,38 @@ const renderSpecifications = (specs: any) => {
               <CardTitle>Specifications</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {renderSpecifications(phone.specifications)}
+              <div className="space-y-4">
+                {/* Debug output - visible only in development */}
+                {process.env.NODE_ENV === 'development' && (
+                  <pre className="text-xs bg-gray-100 p-2 rounded hidden">
+                    {JSON.stringify(phone.specifications, null, 2)}
+                  </pre>
+                )}
+
+                {/* Always show storage and RAM */}
+                {phone.specifications.storage && renderSpecItem("Storage", phone.specifications.storage)}
+                {phone.specifications.ram && renderSpecItem("RAM", phone.specifications.ram)}
+
+                {/* Dynamic nested specs */}
+                {Object.entries(phone.specifications).map(([key, value]) => {
+                  if (['storage', 'ram'].includes(key)) return null;
+                  
+                  if (typeof value === 'object' && value !== null) {
+                    return (
+                      <div key={key} className="pt-2">
+                        <h3 className="font-medium capitalize mb-1">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}
+                        </h3>
+                        <div className="pl-4 space-y-1">
+                          {Object.entries(value).map(([subKey, subValue]) => (
+                            renderSpecItem(subKey, String(subValue))
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return renderSpecItem(key, String(value));
+                })}
               </div>
             </CardContent>
           </Card>
@@ -215,11 +198,5 @@ const renderSpecifications = (specs: any) => {
     </div>
   );
 };
-
-
-// Add this at the start of your component, right after getting the phone
-console.log('Phone data:', phone);
-console.log('Specifications:', phone?.specifications);
-console.log('Specifications keys:', Object.keys(phone?.specifications || {}));
 
 export default ProductDetail;
