@@ -216,4 +216,10 @@ const renderSpecifications = (specs: any) => {
   );
 };
 
+
+// Add this at the start of your component, right after getting the phone
+console.log('Phone data:', phone);
+console.log('Specifications:', phone?.specifications);
+console.log('Specifications keys:', Object.keys(phone?.specifications || {}));
+
 export default ProductDetail;
