@@ -57,18 +57,43 @@ const ProductCard = ({ product }: { product: ProductProps }) => {
             </Badge>
           )}
         </div>
-        <CardContent className="p-4">
-          <div className="text-sm text-gray-500 mb-1">{product.brand}</div>
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">
-            {product.name}
-          </h3>
-          <div className="text-xl font-bold text-brand-gold">
-            ₦{product.price.toLocaleString()}
+       <CardContent>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {/* Storage and RAM (always shown) */}
+    <div className="flex justify-between py-2">
+      <span className="font-medium">Storage:</span>
+      <span className="text-gray-600">{phone.specifications.storage}</span>
+    </div>
+    <div className="flex justify-between py-2">
+      <span className="font-medium">RAM:</span>
+      <span className="text-gray-600">{phone.specifications.ram}</span>
+    </div>
+
+    {/* Dynamic nested specs */}
+    {Object.entries(phone.specifications).map(([key, value]) => {
+      if (['storage', 'ram'].includes(key)) return null; // Skip already shown
+      
+      if (typeof value === 'object') {
+        return (
+          <div key={key} className="col-span-2">
+            <h3 className="font-medium capitalize mb-2">
+              {key.replace(/([A-Z])/g, ' $1').trim()}:
+            </h3>
+            <div className="grid grid-cols-2 gap-2 pl-4">
+              {Object.entries(value).map(([subKey, subValue]) => (
+                <div key={subKey} className="flex justify-between">
+                  <span className="text-gray-600 capitalize">{subKey}:</span>
+                  <span className="font-medium">{String(subValue)}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          {product.inStock === false && (
-            <div className="text-red-500 text-sm mt-1">Out of Stock</div>
-          )}
-        </CardContent>
+        );
+      }
+      return null;
+    })}
+  </div>
+</CardContent>
       </Link>
       <CardFooter className="border-t p-4 flex gap-2">
         <Button 
