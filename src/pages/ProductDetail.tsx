@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,6 +43,35 @@ const ProductDetail = () => {
     toast({
       title: "Added to cart!",
       description: `${phone.name} has been added to your cart.`,
+    });
+  };
+
+  // Helper function to render nested specifications
+  const renderSpecifications = (specs: any) => {
+    return Object.entries(specs).map(([category, details]) => {
+      if (typeof details === 'object' && details !== null) {
+        return (
+          <div key={category} className="col-span-2">
+            <h3 className="font-medium capitalize mb-2">
+              {category.replace(/([A-Z])/g, ' $1').trim()}:
+            </h3>
+            <div className="grid grid-cols-2 gap-2 pl-4">
+              {Object.entries(details).map(([key, value]) => (
+                <div key={key} className="flex justify-between">
+                  <span className="text-gray-600 capitalize">{key}:</span>
+                  <span className="font-medium">{value as string}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+      return (
+        <div key={category} className="flex justify-between py-2">
+          <span className="font-medium capitalize">{category.replace(/([A-Z])/g, ' $1').trim()}:</span>
+          <span className="text-gray-600">{details as string}</span>
+        </div>
+      );
     });
   };
 
@@ -141,32 +169,18 @@ const ProductDetail = () => {
         </div>
 
         {/* Specifications */}
-        <Card className="mb-12">
-          <CardHeader>
-            <CardTitle>Specifications</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {phone.specifications && Object.entries(phone.specifications).map(([key, value]) => (
-                <div key={key} className="flex justify-between items-center py-2">
-                  <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                  <span className="text-gray-600">{value}</span>
-                </div>
-              ))}
-            </div>
-            <Separator className="my-4" />
-            {phone.features && phone.features.length > 0 && (
-              <div>
-                <h3 className="font-medium mb-2">Key Features:</h3>
-                <div className="flex flex-wrap gap-2">
-                  {phone.features.map((feature, index) => (
-                    <Badge key={index} variant="outline">{feature}</Badge>
-                  ))}
-                </div>
+        {phone.specifications && (
+          <Card className="mb-12">
+            <CardHeader>
+              <CardTitle>Specifications</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {renderSpecifications(phone.specifications)}
               </div>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Related Products */}
         {relatedPhones.length > 0 && (
