@@ -1,4 +1,3 @@
-
 export interface Phone {
   id: number;
   name: string;
@@ -13,27 +12,36 @@ export interface Phone {
   description: string;
   inStock: boolean;
   specifications: {
-    // Body
-    dimensions?: string;
-    weight?: string;
-    build?: string; // e.g., "Glass front, plastic back"
-    sim?: string;   // e.g., "Dual SIM"
-    // Display
-    displayType?: string; // e.g., "IPS LCD"
-    displaySize?: string; // e.g., "6.5 inches"
-    resolution?: string;  // e.g., "720 x 1600 pixels"
-    // Platform
-    os?: string;         // e.g., "Android 13"
-    chipset?: string;    // e.g., "Mediatek Helio G85"
-    cpu?: string;        // e.g., "Octa-core"
-    gpu?: string;        // e.g., "Mali-G52"
-    // Camera
-    mainCamera?: string; // e.g., "50 MP, f/1.8 (wide)"
-    selfieCamera?: string; // e.g., "8 MP, f/2.0"
-    video?: string;      // e.g., "1080p@30fps"
-    // Battery
-    batteryType?: string; // e.g., "Li-Po 5000 mAh"
-    charging?: string;    // e.g., "18W wired"
+    // Keep flat storage and ram for backward compatibility
+    storage?: string;
+    ram?: string;
+    // Nested specifications
+    body?: {
+      dimensions?: string;
+      weight?: string;
+      build?: string;
+      sim?: string;
+    };
+    display?: {
+      type?: string;
+      size?: string;
+      resolution?: string;
+    };
+    platform?: {
+      os?: string;
+      chipset?: string;
+      cpu?: string;
+      gpu?: string;
+    };
+    camera?: {
+      main?: string;
+      selfie?: string;
+      video?: string;
+    };
+    battery?: {
+      type?: string;
+      charging?: string;
+    };
   };
 }
 
@@ -96,6 +104,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "256GB",
       ram: "8GB",
+      body: {
+        dimensions: "164.5 x 74.8 x 8.1 mm",
+        weight: "190 g",
+        build: "Glass front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "AMOLED, 120Hz",
+        size: "6.78 inches",
+        resolution: "1080 x 2436 pixels"
+      },
+      platform: {
+        os: "Android 14",
+        chipset: "Mediatek Helio G99",
+        cpu: "Octa-core (2x2.2 GHz Cortex-A76 & 6x2.0 GHz Cortex-A55)",
+        gpu: "Mali-G57 MC2"
+      },
+      camera: {
+        main: "108 MP, f/1.8 (wide)",
+        selfie: "32 MP, f/2.2",
+        video: "4K@30fps"
+      },
+      battery: {
+        type: "Li-Po 5000 mAh",
+        charging: "70W wired"
+      }
     },
     inStock: true
   },
