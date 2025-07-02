@@ -171,7 +171,7 @@ const ProductDetail = () => {
                         <div className="pl-4 space-y-1">
                           {Object.entries(value).map(([subKey, subValue]) => (
                             renderSpecItem(subKey, String(subValue))
-                          )}
+                          ))
                         </div>
                       </div>
                     );
