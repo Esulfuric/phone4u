@@ -15,11 +15,17 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { toast } = useToast();
   
-  // Add this early check
+  // Early return if no ID
   if (!id) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
+          <Button variant="ghost" asChild className="mb-6">
+            <Link to="/products">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Products
+            </Link>
+          </Button>
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Invalid Product ID</h1>
             <Button asChild>
@@ -31,35 +37,39 @@ const ProductDetail = () => {
     );
   }
 
-  const phone = getPhoneById(Number(id));
+  let phone;
+  let relatedPhones = [];
   
-  // Keep your existing phone check
-  if (!phone) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
-            <Button asChild>
-              <Link to="/products">Back to Products</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+  try {
+    phone = getPhoneById(Number(id));
+    if (phone) {
+      relatedPhones = getRelatedPhones(phone) || [];
+    }
+  } catch (error) {
+    console.error("Error getting phone data:", error);
+    phone = null;
   }
 
-  const relatedPhones = phone ? getRelatedPhones(phone) : [];
+  // Debugging
   useEffect(() => {
     console.log("Current phone:", phone);
-  }, [phone]);
+    console.log("ID from params:", id);
+  }, [phone, id]);
 
+  // Early return if no phone found
   if (!phone) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
+          <Button variant="ghost" asChild className="mb-6">
+            <Link to="/products">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Products
+            </Link>
+          </Button>
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+            <p className="text-gray-600 mb-4">The product with ID {id} could not be found.</p>
             <Button asChild>
               <Link to="/products">Back to Products</Link>
             </Button>
@@ -70,21 +80,32 @@ const ProductDetail = () => {
   }
 
   const handleAddToCart = () => {
-    addItem({
-      id: phone.id,
-      name: phone.name,
-      price: phone.price,
-      image: phone.image,
-      brand: phone.brand
-    });
-    toast({
-      title: "Added to cart!",
-      description: `${phone.name} has been added to your cart.`,
-    });
+    if (!phone) return;
+    
+    try {
+      addItem({
+        id: phone.id,
+        name: phone.name,
+        price: phone.price,
+        image: phone.image,
+        brand: phone.brand
+      });
+      toast({
+        title: "Added to cart!",
+        description: `${phone.name} has been added to your cart.`,
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart.",
+        variant: "destructive"
+      });
+    }
   };
 
   const renderSpecItem = (label: string, value: string | number) => (
-    <div className="flex justify-between py-1">
+    <div className="flex justify-between py-1" key={label}>
       <span className="font-medium">{label}:</span>
       <span className="text-gray-600">{value}</span>
     </div>
@@ -104,8 +125,8 @@ const ProductDetail = () => {
           {/* Product Image */}
           <div className="bg-white rounded-lg shadow-sm p-6">
             <img
-              src={phone.image}
-              alt={phone.name}
+              src={phone.image || "/placeholder.jpg"}
+              alt={phone.name || "Product"}
               className="w-full h-96 object-contain rounded-lg"
             />
           </div>
@@ -113,9 +134,9 @@ const ProductDetail = () => {
           {/* Product Info */}
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary">{phone.brand}</Badge>
+              <Badge variant="secondary">{phone.brand || "Unknown"}</Badge>
               <Badge variant={phone.condition === 'new' ? 'default' : 'outline'}>
-                {phone.condition.charAt(0).toUpperCase() + phone.condition.slice(1)}
+                {phone.condition ? phone.condition.charAt(0).toUpperCase() + phone.condition.slice(1) : 'Unknown'}
               </Badge>
               {phone.inStock && (
                 <Badge variant="outline" className="text-green-600 border-green-600">
@@ -125,7 +146,7 @@ const ProductDetail = () => {
               )}
             </div>
 
-            <h1 className="text-3xl font-bold mb-2">{phone.name}</h1>
+            <h1 className="text-3xl font-bold mb-2">{phone.name || "Unknown Product"}</h1>
             <div className="flex items-center gap-2 mb-4">
               <div className="flex text-yellow-400">
                 {[...Array(5)].map((_, i) => (
@@ -136,10 +157,10 @@ const ProductDetail = () => {
             </div>
 
             <div className="text-4xl font-bold text-brand-gold mb-4">
-              ₦{phone.price.toLocaleString()}
+              ₦{phone.price ? phone.price.toLocaleString() : "0"}
             </div>
 
-            <p className="text-gray-700 mb-6">{phone.description}</p>
+            <p className="text-gray-700 mb-6">{phone.description || "No description available"}</p>
 
             {phone.storage && renderSpecItem("Storage", phone.storage)}
             {phone.ram && renderSpecItem("RAM", phone.ram)}
@@ -178,14 +199,7 @@ const ProductDetail = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* Debug output - visible only in development */}
-                {process.env.NODE_ENV === 'development' && (
-                  <pre className="text-xs bg-gray-100 p-2 rounded hidden">
-                    {JSON.stringify(phone.specifications, null, 2)}
-                  </pre>
-                )}
-
-                {/* Always show storage and RAM */}
+                {/* Always show storage and RAM if available */}
                 {phone.specifications.storage && renderSpecItem("Storage", phone.specifications.storage)}
                 {phone.specifications.ram && renderSpecItem("RAM", phone.specifications.ram)}
 
@@ -215,7 +229,7 @@ const ProductDetail = () => {
         )}
 
         {/* Related Products */}
-        {relatedPhones.length > 0 && (
+        {relatedPhones && relatedPhones.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold mb-6">Related Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
