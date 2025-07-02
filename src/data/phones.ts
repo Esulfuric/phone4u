@@ -15,6 +15,7 @@ export interface Phone {
     // Keep flat storage and ram for backward compatibility
     storage?: string;
     ram?: string;
+    connectivity?: "4G" | "5G" | "Wi-Fi";
     // Nested specifications
     body?: {
       dimensions?: string;
@@ -583,6 +584,10 @@ export const phones: Phone[] = [
     category: "smartphones",
     condition: "new",
     description: "Budget-friendly Itel A06 smartphone.",
+    specifications: {
+      storage: "32GB",
+      ram: "1GB",
+    },
     inStock: true
   },
   {
