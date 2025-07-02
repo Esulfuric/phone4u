@@ -150,6 +150,32 @@ export const phones: Phone[] = [
       storage: "256GB",
       ram: "12GB",
       connectivity: "5G",
+      body: {
+        dimensions: "164.8 x 75.2 x 8.1 mm",
+        weight: "190 g",
+        build: "Glass front, aluminum frame, glass back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "AMOLED, 120Hz",
+        size: "6.78 inches",
+        resolution: "1080 x 2436 pixels"
+      },
+      platform: {
+        os: "Android 14",
+        chipset: "Dimensity 6080",
+        cpu: "Octa-core (2x2.4 GHz Cortex-A76 & 6x2.0 GHz Cortex-A55)",
+        gpu: "Mali-G57 MC2"
+      },
+      camera: {
+        main: "108 MP + 2 MP + 0.08 MP",
+        selfie: "50 MP",
+        video: "4K@30fps"
+      },
+      battery: {
+        type: "Li-Po 5000 mAh",
+        charging: "70W fast charging"
+      }
     },
     inStock: true
   },
@@ -167,6 +193,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "64GB",
       ram: "2GB",
+      body: {
+        dimensions: "163.6 x 75.2 x 8.75 mm",
+        weight: "185 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.6 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "8 MP",
+        selfie: "5 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
@@ -184,6 +236,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "64GB",
       ram: "3GB",
+      body: {
+        dimensions: "163.8 x 75.4 x 8.8 mm",
+        weight: "190 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.6 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "13 MP",
+        selfie: "8 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
@@ -201,6 +279,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "128GB",
       ram: "4GB",
+      body: {
+        dimensions: "164.2 x 75.6 x 8.9 mm",
+        weight: "192 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.7 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "13 MP + 0.08 MP",
+        selfie: "8 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
@@ -218,6 +322,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "64GB",
       ram: "2GB",
+      body: {
+        dimensions: "164.0 x 75.4 x 8.7 mm",
+        weight: "185 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.6 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "8 MP",
+        selfie: "5 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
@@ -235,6 +365,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "64GB",
       ram: "3GB",
+      body: {
+        dimensions: "163.9 x 75.5 x 8.9 mm",
+        weight: "192 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.6 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "13 MP",
+        selfie: "8 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
@@ -252,6 +408,32 @@ export const phones: Phone[] = [
     specifications: {
       storage: "64GB",
       ram: "4GB",
+      body: {
+        dimensions: "164.1 x 75.7 x 9.0 mm",
+        weight: "195 g",
+        build: "Plastic front, plastic back",
+        sim: "Dual SIM"
+      },
+      display: {
+        type: "IPS LCD",
+        size: "6.6 inches",
+        resolution: "720 x 1612 pixels"
+      },
+      platform: {
+        os: "Android 12 (Go edition)",
+        chipset: "UNISOC Tiger T606",
+        cpu: "Octa-core (2x1.6 GHz Cortex-A75 & 6x1.6 GHz Cortex-A55)",
+        gpu: "Mali-G57 MP1"
+      },
+      camera: {
+        main: "13 MP",
+        selfie: "8 MP",
+        video: "1080p@30fps"
+      },
+      battery: {
+        type: "Li-Po 4000 mAh",
+        charging: "10W wired"
+      }
     },
     inStock: true
   },
