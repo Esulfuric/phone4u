@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -111,6 +112,23 @@ const ProductDetail = () => {
     </div>
   );
 
+  const renderSpecSection = (title: string, specs: Record<string, any>) => {
+    const validSpecs = Object.entries(specs).filter(([_, value]) => value);
+    if (validSpecs.length === 0) return null;
+
+    return (
+      <div key={title} className="mb-4">
+        <h3 className="font-semibold text-lg mb-2 text-gray-800">{title}</h3>
+        <div className="space-y-1 pl-4">
+          {validSpecs.map(([key, value]) => {
+            const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+            return renderSpecItem(formattedKey, String(value));
+          })}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
@@ -198,31 +216,31 @@ const ProductDetail = () => {
               <CardTitle>Specifications</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {/* Always show storage and RAM if available */}
-                {phone.specifications.storage && renderSpecItem("Storage", phone.specifications.storage)}
-                {phone.specifications.ram && renderSpecItem("RAM", phone.specifications.ram)}
+              <div className="space-y-6">
+                {/* Basic specifications */}
+                <div className="mb-4">
+                  <h3 className="font-semibold text-lg mb-2 text-gray-800">Basic Information</h3>
+                  <div className="space-y-1 pl-4">
+                    {phone.specifications.storage && renderSpecItem("Storage", phone.specifications.storage)}
+                    {phone.specifications.ram && renderSpecItem("RAM", phone.specifications.ram)}
+                    {phone.specifications.connectivity && renderSpecItem("Connectivity", phone.specifications.connectivity)}
+                  </div>
+                </div>
 
-                {/* Dynamic nested specs */}
-                {Object.entries(phone.specifications).map(([key, value]) => {
-                  if (['storage', 'ram'].includes(key)) return null;
-                  
-                  if (typeof value === 'object' && value !== null) {
-                    return (
-                      <div key={key} className="pt-2">
-                        <h3 className="font-medium capitalize mb-1">
-                          {key.replace(/([A-Z])/g, ' $1').trim()}
-                        </h3>
-                        <div className="pl-4 space-y-1">
-                          {Object.entries(value).map(([subKey, subValue]) => (
-                            renderSpecItem(subKey, String(subValue))
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return renderSpecItem(key, String(value));
-                })}
+                {/* Body specifications */}
+                {phone.specifications.body && renderSpecSection("Body", phone.specifications.body)}
+
+                {/* Display specifications */}
+                {phone.specifications.display && renderSpecSection("Display", phone.specifications.display)}
+
+                {/* Platform specifications */}
+                {phone.specifications.platform && renderSpecSection("Platform", phone.specifications.platform)}
+
+                {/* Camera specifications */}
+                {phone.specifications.camera && renderSpecSection("Camera", phone.specifications.camera)}
+
+                {/* Battery specifications */}
+                {phone.specifications.battery && renderSpecSection("Battery", phone.specifications.battery)}
               </div>
             </CardContent>
           </Card>
