@@ -15,10 +15,41 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { toast } = useToast();
   
-  const phone = getPhoneById(Number(id));
-  const relatedPhones = phone ? getRelatedPhones(phone) : [];
+  // Add this early check
+  if (!id) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Invalid Product ID</h1>
+            <Button asChild>
+              <Link to="/products">Back to Products</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  // Debugging
+  const phone = getPhoneById(Number(id));
+  
+  // Keep your existing phone check
+  if (!phone) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+            <Button asChild>
+              <Link to="/products">Back to Products</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const relatedPhones = phone ? getRelatedPhones(phone) : [];
   useEffect(() => {
     console.log("Current phone:", phone);
   }, [phone]);
