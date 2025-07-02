@@ -81,7 +81,7 @@ export const phones: Phone[] = [
     }
   },
   inStock: true
-}
+}.
   {
     id: 2,
     name: "Infinix Note 50 Pro",
