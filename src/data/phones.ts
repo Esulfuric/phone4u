@@ -1188,6 +1188,33 @@ export const phones: Phone[] = [
     specifications: {
       storage: "512GB",
       ram: "12GB",
+      connectivity: "5G",
+      body: {
+        dimensions: "160.5 x 75.1 x 7.8 mm",
+        weight: "195g",
+        build: "Glass front, aluminum frame",
+        sim: "Dual SIM (Nano-SIM)"
+      },
+      display: {
+        type: "AMOLED",
+        size: "6.67 inches",
+        resolution: "1220 x 2712 pixels, 446 ppi"
+      },
+      platform: {
+        os: "Android 14, HyperOS",
+        chipset: "Dimensity 8300-Ultra",
+        cpu: "Octa-core (1x3.35 GHz Cortex-A715 & 3x3.2 GHz Cortex-A715 & 4x2.2 GHz Cortex-A510)",
+        gpu: "Mali-G615 MC6"
+      },
+      camera: {
+        main: "50 MP + 12 MP + 50 MP",
+        selfie: "32 MP",
+        video: "4K@30fps, 1080p@30/60fps"
+      },
+      battery: {
+        type: "5000 mAh",
+        charging: "67W fast charging"
+      }
     },
     inStock: true
   },
