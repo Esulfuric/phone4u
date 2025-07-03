@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
-import { phones } from "@/data/phones";
+import { phones } from "@/data";
 import { Smartphone, Tablet, Wifi, Usb } from "lucide-react";
 
 // Get featured products (top 4 most expensive phones)

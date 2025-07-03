@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter, Search, Smartphone, Tablet } from "lucide-react";
-import { getPhonesByCategory, searchPhones } from "@/data/phones";
+import { phones, getPhonesByCategory, searchPhones } from "@/data";
 import ProductCard from "@/components/ProductCard";
 
 const categories = [
@@ -20,11 +20,12 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const getFilteredPhones = () => {
-    let phones = searchQuery ? searchPhones(searchQuery) : getPhonesByCategory(selectedCategory);
+    let filteredResults = searchQuery ? searchPhones(searchQuery) : 
+      selectedCategory === "all" ? phones : getPhonesByCategory(selectedCategory as "smartphones" | "tablets");
     
     // Filter by price range
     if (priceRange !== "all") {
-      phones = phones.filter(phone => {
+      filteredResults = filteredResults.filter(phone => {
         switch (priceRange) {
           case "under-100k":
             return phone.price < 100000;
@@ -44,7 +45,7 @@ const Products = () => {
       });
     }
     
-    return phones;
+    return filteredResults;
   };
 
   const filteredPhones = getFilteredPhones();

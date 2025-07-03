@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, ShoppingCart, Check, Star, Shield, Truck, RefreshCw } from "lucide-react";
-import { getPhoneById, getRelatedPhones } from "@/data/phones";
+import { getPhoneById, getRelatedPhones } from "@/data";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import ProductCard from "@/components/ProductCard";
