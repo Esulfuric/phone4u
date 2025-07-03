@@ -3,10 +3,10 @@ import { Phone } from "../types";
 export const pocoPhones: Phone[] = [
   {
     id: 38,
-    name: "POCO C71 (64GB)",
+    name: "POCO C71",
     brand: "POCO",
     price: 94900,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://mobitez.in/wp-content/uploads/2025/04/POCO-C71-mobitez.in_.jpg",
     category: "smartphones",
     condition: "new",
     storage: "64GB",
@@ -49,7 +49,7 @@ export const pocoPhones: Phone[] = [
     name: "POCO X7 Pro",
     brand: "POCO",
     price: 589000,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://i.ebayimg.com/images/g/ZnsAAOSwxnlngOFb/s-l1200.jpg",
     category: "smartphones",
     condition: "new",
     storage: "512GB",
