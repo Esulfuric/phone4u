@@ -223,7 +223,7 @@ export const infinixPhones: Phone[] = [
     name: "Infinix Zero Flip",
     brand: "Infinix",
     price: 983900,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02ff9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://hosting.photobucket.com/images/h68/az-avenue/INFINIX-Zero-Flip-2.jpg?width=1920&height=1080&fit=bounds",
     category: "smartphones",
     condition: "new",
     storage: "512GB",
@@ -266,10 +266,10 @@ export const infinixPhones: Phone[] = [
 export const infinixTablets: Phone[] = [
   {
     id: 22,
-    name: "Infinix XPAD (OLD) Wi-Fi",
+    name: "Infinix XPAD",
     brand: "Infinix",
     price: 242900,
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://www.gizmochina.com/wp-content/uploads/2024/08/Infinix-Xpad-1024x632.jpeg?x70461",
     category: "tablets",
     condition: "new",
     storage: "256GB",
