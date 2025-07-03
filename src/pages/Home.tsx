@@ -20,8 +20,8 @@ const categories = [
 const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const bannerImages = [
-    "https://images.unsplash.com/photo-1616077168079-7e09a677fb2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1505739998589-00fc191ce01d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80",
+    "https://sdmntprwestus.oaiusercontent.com/files/00000000-b720-6230-a36d-601387d8c9ad/raw?se=2025-07-03T19%3A58%3A19Z&sp=r&sv=2024-08-04&sr=b&scid=e36e0cc5-7478-58b1-9768-1ff15af5fe36&skoid=1e6af1bf-6b08-4a04-8919-15773e7e7024&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-03T00%3A37%3A47Z&ske=2025-07-04T00%3A37%3A47Z&sks=b&skv=2024-08-04&sig=hy1RQ3KfWrWtpWBL64GZSrXfvEP4GM/w%2BaGlvwbPKp0%3D",
+    "https://i.pinimg.com/736x/77/7e/6a/777e6ac7ccb030b28550fc39ca4b522d.jpg",
     "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80"
   ];
 
