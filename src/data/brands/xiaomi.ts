@@ -3,7 +3,7 @@ import { Phone } from "../types";
 export const xiaomiPhones: Phone[] = [
   {
     id: 45,
-    name: "Redmi A3x (64GB)",
+    name: "Redmi A3x",
     brand: "Xiaomi",
     price: 89900,
     image: "https://www.myg.in/images/thumbnails/300/300/detailed/74/2_k52k-yd-removebg-preview.png.png",
@@ -91,10 +91,10 @@ export const xiaomiPhones: Phone[] = [
   },
   {
     id: 59,
-    name: "Redmi Note 14 Pro+ 5G (256GB)",
+    name: "Redmi Note 14 Pro+ 5G",
     brand: "Xiaomi",
     price: 619800,
-    image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://i.ebayimg.com/images/g/YkMAAOSwX7Vm~REM/s-l1200.png",
     category: "smartphones",
     condition: "new",
     storage: "256GB",
@@ -139,10 +139,10 @@ export const xiaomiPhones: Phone[] = [
 export const xiaomiTablets: Phone[] = [
   {
     id: 61,
-    name: "Redmi Pad Pro 5G (256GB)",
+    name: "Redmi Pad Pro",
     brand: "Xiaomi",
     price: 511800,
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-pad-pro-5g/m/bc2d317060ff3bc67c7b402d67f92809.jpg",
     category: "tablets",
     condition: "new",
     storage: "256GB",
