@@ -21,8 +21,8 @@ const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const bannerImages = [
     "https://sdmntprwestus.oaiusercontent.com/files/00000000-b720-6230-a36d-601387d8c9ad/raw?se=2025-07-03T19%3A58%3A19Z&sp=r&sv=2024-08-04&sr=b&scid=e36e0cc5-7478-58b1-9768-1ff15af5fe36&skoid=1e6af1bf-6b08-4a04-8919-15773e7e7024&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-03T00%3A37%3A47Z&ske=2025-07-04T00%3A37%3A47Z&sks=b&skv=2024-08-04&sig=hy1RQ3KfWrWtpWBL64GZSrXfvEP4GM/w%2BaGlvwbPKp0%3D",
-    "https://i.pinimg.com/736x/77/7e/6a/777e6ac7ccb030b28550fc39ca4b522d.jpg",
-    "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80"
+    "https://www.shutterstock.com/image-photo/online-customer-satisfaction-survey-service-260nw-2480519563.jpg",
+    "https://sdmntprwestus.oaiusercontent.com/files/00000000-2244-6230-8188-f211e39036a7/raw?se=2025-07-03T20%3A39%3A44Z&sp=r&sv=2024-08-04&sr=b&scid=2d636fd5-15bd-553f-ae48-f03aef784c55&skoid=1e6af1bf-6b08-4a04-8919-15773e7e7024&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-03T15%3A12%3A19Z&ske=2025-07-04T15%3A12%3A19Z&sks=b&skv=2024-08-04&sig=QKh2RpYmxCJv%2BSRIfABJmRXclvUgHPhfqlF1gubjs18%3D"
   ];
 
   useEffect(() => {
