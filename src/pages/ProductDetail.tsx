@@ -1,11 +1,12 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, ShoppingCart, Check, Star, Shield, Truck, RefreshCw } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ArrowLeft, ShoppingCart, Check, Shield, Truck, RefreshCw, ChevronDown } from "lucide-react";
 import { getPhoneById, getRelatedPhones } from "@/data";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
@@ -15,6 +16,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const { addItem } = useCart();
   const { toast } = useToast();
+  const [isSpecsOpen, setIsSpecsOpen] = useState(false);
   
   // Early return if no ID
   if (!id) {
@@ -79,6 +81,54 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const getBestSpec = (phone: any) => {
+    const specs = phone.specifications;
+    if (!specs) return "Performance";
+
+    // Check for high-end features and return the best one
+    if (specs.camera?.main && specs.camera.main.includes("108")) return "Camera";
+    if (specs.camera?.main && specs.camera.main.includes("200")) return "Camera";
+    if (specs.display?.type && specs.display.type.includes("AMOLED")) return "Display";
+    if (specs.display?.type && specs.display.type.includes("120Hz")) return "Gaming";
+    if (specs.platform?.chipset && specs.platform.chipset.includes("Snapdragon 8")) return "Performance";
+    if (specs.platform?.chipset && specs.platform.chipset.includes("Dimensity 9")) return "Performance";
+    if (specs.battery?.type && specs.battery.type.includes("5000")) return "Battery Life";
+    if (specs.battery?.type && specs.battery.type.includes("6000")) return "Battery Life";
+    if (phone.ram && parseInt(phone.ram) >= 12) return "Multitasking";
+    if (phone.storage && parseInt(phone.storage) >= 512) return "Storage";
+    
+    return "Value";
+  };
+
+  const getTopSpecs = (phone: any) => {
+    const specs = [];
+    const phoneSpecs = phone.specifications;
+    
+    if (!phoneSpecs) return [];
+
+    // Add best specs based on priority
+    if (phoneSpecs.camera?.main) {
+      specs.push({ label: "Camera", value: phoneSpecs.camera.main });
+    }
+    if (phoneSpecs.display?.type) {
+      specs.push({ label: "Display", value: phoneSpecs.display.type });
+    }
+    if (phoneSpecs.platform?.chipset) {
+      specs.push({ label: "Chipset", value: phoneSpecs.platform.chipset });
+    }
+    if (phoneSpecs.battery?.type) {
+      specs.push({ label: "Battery", value: phoneSpecs.battery.type });
+    }
+    if (phone.ram) {
+      specs.push({ label: "RAM", value: phone.ram });
+    }
+    if (phone.storage) {
+      specs.push({ label: "Storage", value: phone.storage });
+    }
+
+    return specs.slice(0, 2); // Return top 2 specs
+  };
 
   const handleAddToCart = () => {
     if (!phone) return;
@@ -165,13 +215,10 @@ const ProductDetail = () => {
             </div>
 
             <h1 className="text-3xl font-bold mb-2">{phone.name || "Unknown Product"}</h1>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <span className="text-sm text-gray-600">(4.5/5 based on 127 reviews)</span>
+            <div className="mb-4">
+              <Badge variant="outline" className="text-primary border-primary">
+                Best for {getBestSpec(phone)}
+              </Badge>
             </div>
 
             <div className="text-4xl font-bold text-brand-gold mb-4">
@@ -180,8 +227,18 @@ const ProductDetail = () => {
 
             <p className="text-gray-700 mb-6">{phone.description || "No description available"}</p>
 
-            {phone.storage && renderSpecItem("Storage", phone.storage)}
-            {phone.ram && renderSpecItem("RAM", phone.ram)}
+            {/* Top 2 Specs */}
+            <div className="mb-6">
+              <h3 className="font-semibold text-lg mb-3 text-gray-800">Key Features</h3>
+              <div className="grid grid-cols-1 gap-3">
+                {getTopSpecs(phone).map((spec, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span className="font-medium text-gray-900">{spec.label}</span>
+                    <span className="text-gray-600 text-sm">{spec.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <Button 
               onClick={handleAddToCart}
@@ -212,37 +269,141 @@ const ProductDetail = () => {
         {/* Specifications */}
         {phone.specifications && (
           <Card className="mb-12">
-            <CardHeader>
-              <CardTitle>Specifications</CardTitle>
+            <CardHeader className="pb-4">
+              <Collapsible open={isSpecsOpen} onOpenChange={setIsSpecsOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between p-0 h-auto text-left hover:bg-transparent"
+                  >
+                    <CardTitle className="text-xl">Technical Specifications</CardTitle>
+                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isSpecsOpen ? 'rotate-180' : ''}`} />
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="pt-4">
+                  <CardContent className="px-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Basic specifications */}
+                      {(phone.specifications.storage || phone.specifications.ram || phone.specifications.connectivity) && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Basic Information</h3>
+                          <div className="space-y-2">
+                            {phone.specifications.storage && (
+                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span className="font-medium text-gray-700">Storage</span>
+                                <span className="text-gray-900 font-semibold">{phone.specifications.storage}</span>
+                              </div>
+                            )}
+                            {phone.specifications.ram && (
+                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span className="font-medium text-gray-700">RAM</span>
+                                <span className="text-gray-900 font-semibold">{phone.specifications.ram}</span>
+                              </div>
+                            )}
+                            {phone.specifications.connectivity && (
+                              <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span className="font-medium text-gray-700">Connectivity</span>
+                                <span className="text-gray-900 font-semibold">{phone.specifications.connectivity}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Display specifications */}
+                      {phone.specifications.display && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Display</h3>
+                          <div className="space-y-2">
+                            {Object.entries(phone.specifications.display).filter(([_, value]) => value).map(([key, value]) => {
+                              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                              return (
+                                <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100">
+                                  <span className="font-medium text-gray-700">{formattedKey}</span>
+                                  <span className="text-gray-900 font-semibold">{String(value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Platform specifications */}
+                      {phone.specifications.platform && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Platform</h3>
+                          <div className="space-y-2">
+                            {Object.entries(phone.specifications.platform).filter(([_, value]) => value).map(([key, value]) => {
+                              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                              return (
+                                <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100">
+                                  <span className="font-medium text-gray-700">{formattedKey}</span>
+                                  <span className="text-gray-900 font-semibold text-right text-sm">{String(value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Camera specifications */}
+                      {phone.specifications.camera && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Camera</h3>
+                          <div className="space-y-2">
+                            {Object.entries(phone.specifications.camera).filter(([_, value]) => value).map(([key, value]) => {
+                              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                              return (
+                                <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100">
+                                  <span className="font-medium text-gray-700">{formattedKey}</span>
+                                  <span className="text-gray-900 font-semibold">{String(value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Body specifications */}
+                      {phone.specifications.body && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Body</h3>
+                          <div className="space-y-2">
+                            {Object.entries(phone.specifications.body).filter(([_, value]) => value).map(([key, value]) => {
+                              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                              return (
+                                <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100">
+                                  <span className="font-medium text-gray-700">{formattedKey}</span>
+                                  <span className="text-gray-900 font-semibold text-right text-sm">{String(value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Battery specifications */}
+                      {phone.specifications.battery && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-lg text-gray-900 border-b border-gray-200 pb-2">Battery</h3>
+                          <div className="space-y-2">
+                            {Object.entries(phone.specifications.battery).filter(([_, value]) => value).map(([key, value]) => {
+                              const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                              return (
+                                <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100">
+                                  <span className="font-medium text-gray-700">{formattedKey}</span>
+                                  <span className="text-gray-900 font-semibold">{String(value)}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </CollapsibleContent>
+              </Collapsible>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                {/* Basic specifications */}
-                <div className="mb-4">
-                  <h3 className="font-semibold text-lg mb-2 text-gray-800">Basic Information</h3>
-                  <div className="space-y-1 pl-4">
-                    {phone.specifications.storage && renderSpecItem("Storage", phone.specifications.storage)}
-                    {phone.specifications.ram && renderSpecItem("RAM", phone.specifications.ram)}
-                    {phone.specifications.connectivity && renderSpecItem("Connectivity", phone.specifications.connectivity)}
-                  </div>
-                </div>
-
-                {/* Body specifications */}
-                {phone.specifications.body && renderSpecSection("Body", phone.specifications.body)}
-
-                {/* Display specifications */}
-                {phone.specifications.display && renderSpecSection("Display", phone.specifications.display)}
-
-                {/* Platform specifications */}
-                {phone.specifications.platform && renderSpecSection("Platform", phone.specifications.platform)}
-
-                {/* Camera specifications */}
-                {phone.specifications.camera && renderSpecSection("Camera", phone.specifications.camera)}
-
-                {/* Battery specifications */}
-                {phone.specifications.battery && renderSpecSection("Battery", phone.specifications.battery)}
-              </div>
-            </CardContent>
           </Card>
         )}
 
