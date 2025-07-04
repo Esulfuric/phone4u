@@ -30,7 +30,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setUser(session?.user ?? null);
         if (session?.user) {
           checkAdminStatus(session.user.id);
@@ -57,6 +57,11 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       setIsAdmin(!!data);
+      
+      // Auto-navigate to admin dashboard if user is admin
+      if (data && window.location.pathname === '/') {
+        window.location.href = '/admin';
+      }
     } catch (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);

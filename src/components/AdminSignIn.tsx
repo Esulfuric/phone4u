@@ -23,11 +23,11 @@ const AdminSignIn = () => {
     
     if (error) {
       setError(error.message);
+      setLoading(false);
     } else {
-      navigate("/admin");
+      // Don't navigate immediately, let the auth state change handle it
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
