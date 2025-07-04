@@ -22,6 +22,12 @@ const Cart = () => {
       return;
     }
 
+    // Check if total is 500,000 or above - redirect to customer service
+    if (total >= 500000) {
+      window.location.href = "/customer-service";
+      return;
+    }
+
     // Create cart summary
     const cartSummary = items.map(item => `${item.quantity}x ${item.name}`).join(", ");
 

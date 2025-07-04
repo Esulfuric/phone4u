@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
 import { phones } from "@/data";
 import { Smartphone, Tablet, Wifi, Usb } from "lucide-react";
+import AdminSignIn from "@/components/AdminSignIn";
+import { useAdmin } from "@/context/AdminContext";
 
 // Get featured products (top 4 most expensive phones)
 const featuredProducts = phones
@@ -19,6 +21,8 @@ const categories = [
 
 const Home = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const { isAdmin } = useAdmin();
   const bannerImages = [
     "https://sdmntprwestus.oaiusercontent.com/files/00000000-b720-6230-a36d-601387d8c9ad/raw?se=2025-07-03T19%3A58%3A19Z&sp=r&sv=2024-08-04&sr=b&scid=e36e0cc5-7478-58b1-9768-1ff15af5fe36&skoid=1e6af1bf-6b08-4a04-8919-15773e7e7024&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-03T00%3A37%3A47Z&ske=2025-07-04T00%3A37%3A47Z&sks=b&skv=2024-08-04&sig=hy1RQ3KfWrWtpWBL64GZSrXfvEP4GM/w%2BaGlvwbPKp0%3D",
     "https://www.shutterstock.com/image-photo/online-customer-satisfaction-survey-service-260nw-2480519563.jpg",
@@ -187,6 +191,46 @@ const Home = () => {
                 <Link to="/contact">Contact Us</Link>
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Sign In Section - Bottom of page */}
+      <section className="py-8 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center">
+            {isAdmin ? (
+              <Link to="/admin">
+                <Button variant="outline" size="sm">
+                  Go to Admin Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <div className="text-center">
+                {!showAdminLogin ? (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowAdminLogin(true)}
+                    className="text-xs text-gray-500 hover:text-gray-700"
+                  >
+                    Admin Access
+                  </Button>
+                ) : (
+                  <div className="space-y-4">
+                    <AdminSignIn />
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => setShowAdminLogin(false)}
+                      className="text-xs"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
