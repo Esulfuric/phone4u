@@ -1,12 +1,57 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useCart } from "@/context/CartContext";
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Cart = () => {
   const { items, total, itemCount, removeItem, updateQuantity, clearCart } = useCart();
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    email: "",
+    phone: ""
+  });
+
+  const handleCheckout = () => {
+    if (!userDetails.name || !userDetails.email || !userDetails.phone) {
+      alert("Please fill in all your details before proceeding to checkout.");
+      return;
+    }
+
+    // Create cart summary
+    const cartSummary = items.map(item => `${item.quantity}x ${item.name}`).join(", ");
+
+    // @ts-ignore - FlutterwaveCheckout is loaded via script tag
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK_TEST-a576448a90ccd3f41a0885368e1e692a-X",
+      tx_ref: "phone4u_" + Date.now(),
+      amount: total,
+      currency: "NGN",
+      payment_options: "card,banktransfer,ussd",
+      customer: {
+        email: userDetails.email,
+        phone_number: userDetails.phone,
+        name: userDetails.name,
+      },
+      customizations: {
+        title: "Phone4U Nigeria",
+        description: `Order: ${cartSummary}`,
+        logo: "https://phone4u.com.ng/lovable-uploads/d8952835-0483-4d9b-ba3e-6d83bac0fdc2.png"
+      },
+      callback: function (response) {
+        console.log(response);
+        alert("Payment successful!");
+        clearCart();
+      },
+      onclose: function () {
+        console.log("Payment closed.");
+      },
+    });
+  };
 
   if (items.length === 0) {
     return (
@@ -94,7 +139,46 @@ const Cart = () => {
             </div>
 
             {/* Order Summary */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 space-y-4">
+              {/* Customer Details Form */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Customer Details</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={userDetails.name}
+                      onChange={(e) => setUserDetails({...userDetails, name: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={userDetails.email}
+                      onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      value={userDetails.phone}
+                      onChange={(e) => setUserDetails({...userDetails, phone: e.target.value})}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
               <Card>
                 <CardHeader>
                   <CardTitle>Order Summary</CardTitle>
@@ -114,7 +198,10 @@ const Cart = () => {
                       <span className="text-brand-gold">₦{total.toLocaleString()}</span>
                     </div>
                   </div>
-                  <Button className="w-full bg-black hover:bg-brand-gold text-white">
+                  <Button 
+                    className="w-full bg-black hover:bg-brand-gold text-white"
+                    onClick={handleCheckout}
+                  >
                     Proceed to Checkout
                   </Button>
                   <Link to="/products">
