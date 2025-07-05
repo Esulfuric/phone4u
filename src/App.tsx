@@ -14,6 +14,7 @@ import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 import CustomerService from "./pages/CustomerService";
+import AdminSignIn from "./components/AdminSignIn";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,11 @@ const App = () => (
         <CartProvider>
           <BrowserRouter>
             <Routes>
+              {/* Admin routes - separate from main layout */}
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/signin" element={<AdminSignIn />} />
+              
+              {/* Main site routes */}
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="products" element={<Products />} />
@@ -32,7 +38,6 @@ const App = () => (
                 <Route path="cart" element={<Cart />} />
                 <Route path="terms" element={<Terms />} />
                 <Route path="privacy" element={<Privacy />} />
-                <Route path="admin" element={<AdminDashboard />} />
                 <Route path="customer-service" element={<CustomerService />} />
                 <Route path="*" element={<NotFound />} />
               </Route>

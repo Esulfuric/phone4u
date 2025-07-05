@@ -22,9 +22,16 @@ const Cart = () => {
       return;
     }
 
-    // Check if total is 500,000 or above - redirect to customer service
+    // Check if total is 500,000 or above - redirect to customer service with chat
     if (total >= 500000) {
-      window.location.href = "/customer-service";
+      const chatParams = new URLSearchParams({
+        name: userDetails.name,
+        email: userDetails.email,
+        phone: userDetails.phone,
+        total: total.toString(),
+        items: encodeURIComponent(JSON.stringify(items))
+      });
+      window.location.href = `/customer-service?${chatParams.toString()}`;
       return;
     }
 

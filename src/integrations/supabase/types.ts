@@ -30,6 +30,75 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          sender_name: string
+          sender_type: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          sender_name: string
+          sender_type: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          sender_name?: string
+          sender_type?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      chat_sessions: {
+        Row: {
+          admin_assigned: string | null
+          cart_items: Json
+          cart_total: number
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          session_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_assigned?: string | null
+          cart_items: Json
+          cart_total: number
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          session_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_assigned?: string | null
+          cart_items?: Json
+          cart_total?: number
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          session_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -95,6 +164,63 @@ export type Database = {
           payment_reference?: string | null
           status?: string
           total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          brand: string
+          category: string | null
+          condition: string | null
+          connectivity: string | null
+          created_at: string
+          description: string | null
+          id: number
+          image: string | null
+          in_stock: boolean
+          name: string
+          price: number
+          ram: string | null
+          specifications: Json | null
+          stock_quantity: number
+          storage: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand: string
+          category?: string | null
+          condition?: string | null
+          connectivity?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          image?: string | null
+          in_stock?: boolean
+          name: string
+          price: number
+          ram?: string | null
+          specifications?: Json | null
+          stock_quantity?: number
+          storage?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand?: string
+          category?: string | null
+          condition?: string | null
+          connectivity?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          image?: string | null
+          in_stock?: boolean
+          name?: string
+          price?: number
+          ram?: string | null
+          specifications?: Json | null
+          stock_quantity?: number
+          storage?: string | null
           updated_at?: string
         }
         Relationships: []
