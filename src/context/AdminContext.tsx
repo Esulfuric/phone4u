@@ -50,7 +50,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .from('admin_users')
         .select('*')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
       if (error && error.code !== 'PGRST116') {
         console.error('Error checking admin status:', error);
