@@ -25,7 +25,8 @@ const AdminSignIn = () => {
       setError(error.message);
       setLoading(false);
     } else {
-      // Don't navigate immediately, let the auth state change handle it
+      // Navigate to admin dashboard after successful sign in
+      navigate('/admin');
       setLoading(false);
     }
   };

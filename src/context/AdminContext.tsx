@@ -57,11 +57,6 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       setIsAdmin(!!data);
-      
-      // Auto-navigate to admin dashboard if user is admin
-      if (data && window.location.pathname === '/') {
-        window.location.href = '/admin';
-      }
     } catch (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);
