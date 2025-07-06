@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { Shield, User, Lock } from "lucide-react";
+import SetupAdminPasswords from "./SetupAdminPasswords";
 
 const AdminSignIn = () => {
   const [name, setName] = useState("");
@@ -21,12 +22,16 @@ const AdminSignIn = () => {
     setLoading(true);
     setError("");
 
+    console.log('Attempting to sign in with:', { name, passwordLength: password.length });
+
     const { error } = await signIn(name, password);
     
     if (error) {
+      console.error('Sign in error:', error);
       setError(error.message);
       setLoading(false);
     } else {
+      console.log('Sign in successful, navigating to admin dashboard');
       // Navigate to admin dashboard after successful sign in
       navigate('/admin');
       setLoading(false);
@@ -35,7 +40,7 @@ const AdminSignIn = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md space-y-6">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-gold/10 border border-brand-gold/20 rounded-full mb-4">
@@ -43,6 +48,11 @@ const AdminSignIn = () => {
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
           <p className="text-slate-400">Secure access to administration panel</p>
+        </div>
+
+        {/* Setup Admin Passwords Component */}
+        <div className="mb-6">
+          <SetupAdminPasswords />
         </div>
 
         <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm shadow-2xl">
@@ -62,7 +72,7 @@ const AdminSignIn = () => {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Enter your admin name"
+                  placeholder="Enter your admin name (desmond or emem)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -113,6 +123,9 @@ const AdminSignIn = () => {
         <div className="text-center mt-6">
           <p className="text-slate-500 text-sm">
             Authorized personnel only. All access is monitored.
+          </p>
+          <p className="text-slate-400 text-xs mt-2">
+            Note: Click "Setup Secure Passwords" above first if this is your first time signing in.
           </p>
         </div>
       </div>

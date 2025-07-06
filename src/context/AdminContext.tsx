@@ -31,6 +31,8 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const signIn = async (name: string, password: string) => {
     try {
+      console.log('Starting admin sign in process for:', name);
+      
       // Get admin credentials from database
       const { data: credentials, error } = await supabase
         .from('admin_credentials')
@@ -38,14 +40,28 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .ilike('name', name.toLowerCase())
         .single();
 
+      console.log('Credentials query result:', { credentials, error });
+
       if (error || !credentials) {
+        console.error('No credentials found for admin:', name, error);
         return { error: { message: 'Invalid admin credentials' } };
+      }
+
+      console.log('Found credentials for:', credentials.name);
+      console.log('Stored password hash starts with:', credentials.password_hash?.substring(0, 10));
+
+      // Check if password hash is still a placeholder
+      if (credentials.password_hash.includes('placeholder_hash')) {
+        console.error('Password hash is still a placeholder - need to run setup first');
+        return { error: { message: 'Admin passwords not properly set up. Please run password setup first.' } };
       }
 
       // Hash the provided password and compare with stored hash
       const isValidPassword = await bcrypt.compare(password, credentials.password_hash);
+      console.log('Password comparison result:', isValidPassword);
 
       if (!isValidPassword) {
+        console.error('Password comparison failed');
         return { error: { message: 'Invalid admin credentials' } };
       }
 
@@ -56,7 +72,10 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .eq('id', credentials.admin_user_id)
         .single();
 
+      console.log('Admin user query result:', { adminUser, adminError });
+
       if (adminError || !adminUser) {
+        console.error('Admin user not found:', adminError);
         return { error: { message: 'Admin user not found' } };
       }
 
@@ -66,6 +85,8 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         role: adminUser.role,
         credential_id: credentials.id
       };
+
+      console.log('Creating admin session:', adminSession);
 
       // Store admin session
       localStorage.setItem('admin_session', JSON.stringify(adminSession));
