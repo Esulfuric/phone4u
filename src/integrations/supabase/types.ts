@@ -9,6 +9,38 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_credentials: {
+        Row: {
+          admin_user_id: string | null
+          created_at: string
+          id: string
+          name: string
+          password_hash: string
+        }
+        Insert: {
+          admin_user_id?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          password_hash: string
+        }
+        Update: {
+          admin_user_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          password_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_credentials_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "admin_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_users: {
         Row: {
           created_at: string

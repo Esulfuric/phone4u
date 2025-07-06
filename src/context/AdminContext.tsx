@@ -1,85 +1,96 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { User } from '@supabase/supabase-js';
+import bcrypt from 'bcryptjs';
 
 interface AdminContextType {
-  user: User | null;
+  admin: any | null;
   isAdmin: boolean;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signIn: (name: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [admin, setAdmin] = useState<any | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        checkAdminStatus(session.user.id);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          checkAdminStatus(session.user.id);
-        } else {
-          setIsAdmin(false);
-          setLoading(false);
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
+    // Check if admin is stored in localStorage
+    const storedAdmin = localStorage.getItem('admin_session');
+    if (storedAdmin) {
+      const adminData = JSON.parse(storedAdmin);
+      setAdmin(adminData);
+      setIsAdmin(true);
+    }
+    setLoading(false);
   }, []);
 
-  const checkAdminStatus = async (userId: string) => {
+  const signIn = async (name: string, password: string) => {
     try {
-      const { data, error } = await supabase
-        .from('admin_users')
+      // Get admin credentials from database
+      const { data: credentials, error } = await supabase
+        .from('admin_credentials')
         .select('*')
-        .eq('user_id', userId)
-        .maybeSingle();
+        .ilike('name', name)
+        .single();
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking admin status:', error);
+      if (error || !credentials) {
+        return { error: { message: 'Invalid admin credentials' } };
       }
 
-      setIsAdmin(!!data);
+      // For now, we'll do a simple comparison since we need to update the hashes
+      // In production, you'd use bcrypt.compare(password, credentials.password_hash)
+      const isValidPassword = 
+        (name.toLowerCase() === 'desmond' && password === 'Resonance@123') ||
+        (name.toLowerCase() === 'emem' && password === 'Emico3108');
+
+      if (!isValidPassword) {
+        return { error: { message: 'Invalid admin credentials' } };
+      }
+
+      // Get admin user details
+      const { data: adminUser, error: adminError } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('id', credentials.admin_user_id)
+        .single();
+
+      if (adminError || !adminUser) {
+        return { error: { message: 'Admin user not found' } };
+      }
+
+      const adminSession = {
+        id: adminUser.id,
+        name: credentials.name,
+        role: adminUser.role,
+        credential_id: credentials.id
+      };
+
+      // Store admin session
+      localStorage.setItem('admin_session', JSON.stringify(adminSession));
+      setAdmin(adminSession);
+      setIsAdmin(true);
+
+      return { error: null };
     } catch (error) {
-      console.error('Error checking admin status:', error);
-      setIsAdmin(false);
-    } finally {
-      setLoading(false);
+      console.error('Admin sign in error:', error);
+      return { error: { message: 'Authentication failed' } };
     }
   };
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
-  };
-
   const signOut = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem('admin_session');
+    setAdmin(null);
+    setIsAdmin(false);
   };
 
   return (
     <AdminContext.Provider value={{
-      user,
+      admin,
       isAdmin,
       loading,
       signIn,

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useAdmin } from "@/context/AdminContext";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
 const AdminSignIn = () => {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ const AdminSignIn = () => {
     setLoading(true);
     setError("");
 
-    const { error } = await signIn(email, password);
+    const { error } = await signIn(name, password);
     
     if (error) {
       setError(error.message);
@@ -32,46 +33,51 @@ const AdminSignIn = () => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="text-center">Admin Sign In</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="admin@phone4u.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && (
-            <p className="text-red-600 text-sm">{error}</p>
-          )}
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? "Signing In..." : "Sign In"}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-slate-800 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-center text-white">Admin Sign In</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-slate-300">Admin Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your admin name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="bg-slate-700 border-slate-600 text-white"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-slate-300">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="bg-slate-700 border-slate-600 text-white"
+              />
+            </div>
+            {error && (
+              <p className="text-red-400 text-sm">{error}</p>
+            )}
+            <Button 
+              type="submit" 
+              className="w-full bg-brand-gold hover:bg-brand-gold/80 text-black"
+              disabled={loading}
+            >
+              {loading ? "Signing In..." : "Sign In"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

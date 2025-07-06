@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useAdmin } from "@/context/AdminContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import AdminChatPanel from "@/components/AdminChatPanel";
 
 const AdminDashboard = () => {
-  const { isAdmin, loading, signOut, user } = useAdmin();
+  const { isAdmin, loading, signOut, admin } = useAdmin();
   const { toast } = useToast();
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
@@ -199,7 +200,7 @@ const AdminDashboard = () => {
             )}
           </div>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-slate-300">Welcome, Admin</span>
+            <span className="text-sm text-slate-300">Welcome, {admin?.name || 'Admin'}</span>
             <Button onClick={signOut} variant="outline" size="sm">
               Sign Out
             </Button>
