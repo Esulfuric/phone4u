@@ -35,18 +35,15 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const { data: credentials, error } = await supabase
         .from('admin_credentials')
         .select('*')
-        .ilike('name', name)
+        .ilike('name', name.toLowerCase())
         .single();
 
       if (error || !credentials) {
         return { error: { message: 'Invalid admin credentials' } };
       }
 
-      // For now, we'll do a simple comparison since we need to update the hashes
-      // In production, you'd use bcrypt.compare(password, credentials.password_hash)
-      const isValidPassword = 
-        (name.toLowerCase() === 'desmond' && password === 'Resonance@123') ||
-        (name.toLowerCase() === 'emem' && password === 'Emico3108');
+      // Hash the provided password and compare with stored hash
+      const isValidPassword = await bcrypt.compare(password, credentials.password_hash);
 
       if (!isValidPassword) {
         return { error: { message: 'Invalid admin credentials' } };

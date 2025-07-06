@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Navigate, Link } from "react-router-dom";
-import { MessageCircle, Package, ShoppingCart, Settings, Users, Bell } from "lucide-react";
+import { Navigate } from "react-router-dom";
+import { MessageCircle, Package, ShoppingCart, Settings, Users, Bell, LogOut, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AdminChatPanel from "@/components/AdminChatPanel";
 
@@ -168,8 +168,11 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-slate-900">
-        <div className="text-white">Loading...</div>
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="text-white flex items-center gap-3">
+          <div className="w-6 h-6 border-2 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
+          Loading admin panel...
+        </div>
       </div>
     );
   }
@@ -183,25 +186,39 @@ const AdminDashboard = () => {
   const lowStockProducts = products.filter((product: any) => product.stock_quantity < 5).length;
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
       {/* Admin Header */}
-      <div className="bg-slate-800 border-b border-slate-700 px-6 py-4">
+      <div className="bg-slate-800/50 backdrop-blur-sm border-b border-brand-gold/20 px-6 py-4 sticky top-0 z-50">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Settings className="h-6 w-6 text-brand-gold" />
-              <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-brand-gold/10 rounded-lg border border-brand-gold/20">
+                <Shield className="h-6 w-6 text-brand-gold" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+                <p className="text-sm text-slate-400">Comprehensive business management</p>
+              </div>
             </div>
             {notifications > 0 && (
-              <div className="flex items-center space-x-1 bg-red-500 px-2 py-1 rounded-full text-xs">
-                <Bell className="h-3 w-3" />
-                <span>{notifications}</span>
+              <div className="flex items-center space-x-1 bg-red-500/20 border border-red-500/30 px-3 py-1 rounded-full text-sm animate-pulse">
+                <Bell className="h-4 w-4 text-red-400" />
+                <span className="text-red-400 font-medium">{notifications}</span>
               </div>
             )}
           </div>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-slate-300">Welcome, {admin?.name || 'Admin'}</span>
-            <Button onClick={signOut} variant="outline" size="sm">
+            <div className="text-right">
+              <p className="text-sm font-medium text-white">Welcome back</p>
+              <p className="text-xs text-brand-gold capitalize">{admin?.name || 'Administrator'}</p>
+            </div>
+            <Button 
+              onClick={signOut} 
+              variant="outline" 
+              size="sm"
+              className="border-slate-600 hover:bg-slate-700 hover:border-brand-gold/50 text-white"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
               Sign Out
             </Button>
           </div>
@@ -212,50 +229,58 @@ const AdminDashboard = () => {
       <div className="p-6">
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm hover:bg-slate-800/70 transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Pending Orders</p>
-                  <p className="text-2xl font-bold text-white">{pendingOrders}</p>
+                  <p className="text-slate-400 text-sm font-medium">Pending Orders</p>
+                  <p className="text-3xl font-bold text-white mt-1">{pendingOrders}</p>
                 </div>
-                <ShoppingCart className="h-8 w-8 text-brand-gold" />
+                <div className="p-3 bg-brand-gold/10 rounded-lg border border-brand-gold/20">
+                  <ShoppingCart className="h-8 w-8 text-brand-gold" />
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm hover:bg-slate-800/70 transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Active Chats</p>
-                  <p className="text-2xl font-bold text-white">{activeChatSessions}</p>
+                  <p className="text-slate-400 text-sm font-medium">Active Chats</p>
+                  <p className="text-3xl font-bold text-white mt-1">{activeChatSessions}</p>
                 </div>
-                <MessageCircle className="h-8 w-8 text-brand-gold" />
+                <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                  <MessageCircle className="h-8 w-8 text-blue-400" />
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm hover:bg-slate-800/70 transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Low Stock</p>
-                  <p className="text-2xl font-bold text-white">{lowStockProducts}</p>
+                  <p className="text-slate-400 text-sm font-medium">Low Stock</p>
+                  <p className="text-3xl font-bold text-white mt-1">{lowStockProducts}</p>
                 </div>
-                <Package className="h-8 w-8 text-red-400" />
+                <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                  <Package className="h-8 w-8 text-red-400" />
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm hover:bg-slate-800/70 transition-all duration-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-slate-400 text-sm">Total Products</p>
-                  <p className="text-2xl font-bold text-white">{products.length}</p>
+                  <p className="text-slate-400 text-sm font-medium">Total Products</p>
+                  <p className="text-3xl font-bold text-white mt-1">{products.length}</p>
                 </div>
-                <Users className="h-8 w-8 text-brand-gold" />
+                <div className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                  <Users className="h-8 w-8 text-green-400" />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -263,39 +288,60 @@ const AdminDashboard = () => {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-slate-800">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-brand-gold data-[state=active]:text-black">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
+            <TabsTrigger 
+              value="overview" 
+              className="data-[state=active]:bg-brand-gold data-[state=active]:text-black font-medium"
+            >
               Overview
             </TabsTrigger>
-            <TabsTrigger value="orders" className="data-[state=active]:bg-brand-gold data-[state=active]:text-black">
+            <TabsTrigger 
+              value="orders" 
+              className="data-[state=active]:bg-brand-gold data-[state=active]:text-black font-medium"
+            >
               Orders ({pendingOrders})
             </TabsTrigger>
-            <TabsTrigger value="products" className="data-[state=active]:bg-brand-gold data-[state=active]:text-black">
+            <TabsTrigger 
+              value="products" 
+              className="data-[state=active]:bg-brand-gold data-[state=active]:text-black font-medium"
+            >
               Products
             </TabsTrigger>
-            <TabsTrigger value="chat" className="data-[state=active]:bg-brand-gold data-[state=active]:text-black">
+            <TabsTrigger 
+              value="chat" 
+              className="data-[state=active]:bg-brand-gold data-[state=active]:text-black font-medium"
+            >
               Live Chat ({activeChatSessions})
             </TabsTrigger>
-            <TabsTrigger value="messages" className="data-[state=active]:bg-brand-gold data-[state=active]:text-black">
+            <TabsTrigger 
+              value="messages" 
+              className="data-[state=active]:bg-brand-gold data-[state=active]:text-black font-medium"
+            >
               Messages
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="text-white">Recent Orders</CardTitle>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <ShoppingCart className="h-5 w-5 text-brand-gold" />
+                    Recent Orders
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {orders.slice(0, 5).map((order: any) => (
-                      <div key={order.id} className="flex justify-between items-center p-3 bg-slate-700 rounded">
+                      <div key={order.id} className="flex justify-between items-center p-4 bg-slate-700/50 rounded-lg border border-slate-600/50">
                         <div>
                           <p className="text-white font-medium">{order.customer_name}</p>
-                          <p className="text-slate-400 text-sm">₦{Number(order.total_amount).toLocaleString()}</p>
+                          <p className="text-brand-gold font-semibold">₦{Number(order.total_amount).toLocaleString()}</p>
                         </div>
-                        <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
+                        <Badge 
+                          variant={order.status === 'completed' ? 'default' : 'secondary'}
+                          className={order.status === 'completed' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
+                        >
                           {order.status}
                         </Badge>
                       </div>
@@ -304,25 +350,35 @@ const AdminDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-800 border-slate-700">
+              <Card className="bg-slate-800/50 border-slate-700/50 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="text-white">Low Stock Alert</CardTitle>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <Package className="h-5 w-5 text-red-400" />
+                    Low Stock Alert
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {products.filter(p => p.stock_quantity < 5).slice(0, 5).map((product: any) => (
-                      <div key={product.id} className="flex justify-between items-center p-3 bg-red-900/20 rounded border border-red-500/30">
+                      <div key={product.id} className="flex justify-between items-center p-4 bg-red-900/20 rounded-lg border border-red-500/30">
                         <div>
                           <p className="text-white font-medium">{product.name}</p>
-                          <p className="text-red-400 text-sm">Only {product.stock_quantity} left</p>
+                          <p className="text-red-400 text-sm font-medium">Only {product.stock_quantity} left</p>
                         </div>
-                        <Button size="sm" onClick={() => setActiveTab("products")}>
+                        <Button 
+                          size="sm" 
+                          onClick={() => setActiveTab("products")}
+                          className="bg-brand-gold hover:bg-brand-gold/90 text-black"
+                        >
                           Restock
                         </Button>
                       </div>
                     ))}
                     {products.filter(p => p.stock_quantity < 5).length === 0 && (
-                      <p className="text-slate-400 text-center py-4">All products are well stocked!</p>
+                      <div className="text-center py-8">
+                        <Package className="h-12 w-12 text-green-400 mx-auto mb-3 opacity-50" />
+                        <p className="text-slate-400">All products are well stocked!</p>
+                      </div>
                     )}
                   </div>
                 </CardContent>
